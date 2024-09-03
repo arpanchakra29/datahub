@@ -44,7 +44,7 @@ record SearchFlags {
    */
    includeSoftDeleted:optional boolean = false
 
-  /**
+   /**
    * include restricted entities in results (default is to filter)
    */
    includeRestricted:optional boolean = false
@@ -52,10 +52,10 @@ record SearchFlags {
    /**
    * Whether to enable custom highlighting
    */
-   cutomHighlighting:optional boolean = false
+   customHighlighting:optional boolean = false
 
-  /**
+   /**
    * include mentioned fields inside elastich highlighting query
    */
-   cutomHighlightingFields:optional array[string]
+   customHighlightingFields:optional array[string]
 }
