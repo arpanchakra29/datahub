@@ -213,6 +213,21 @@ public class SearchRequestHandler {
     if (Boolean.FALSE.equals(searchFlags.isSkipHighlighting())) {
       searchSourceBuilder.highlighter(highlights);
     }
+    if (Boolean.FALSE.equals(searchFlags.isCustomHighlighting())) {
+      HighlightBuilder highlightBuilder = new HighlightBuilder();
+
+      // Don't set tags to get the original field value
+      highlightBuilder.preTags("");
+      highlightBuilder.postTags("");
+
+      // Check for each field name and any subfields
+      searchFlags.customHighlightingFields().stream()
+              .flatMap(fieldName -> Stream.of(fieldName, fieldName + ".*")).distinct()
+              .forEach(highlightBuilder::field);
+      searchSourceBuilder.highlighter(highlightBuilder);
+      searchSourceBuilder.highlighter(highlights);
+    }
+    
     ESUtils.buildSortOrder(searchSourceBuilder, sortCriteria, entitySpecs);
 
     if (Boolean.TRUE.equals(searchFlags.isGetSuggestions())) {
